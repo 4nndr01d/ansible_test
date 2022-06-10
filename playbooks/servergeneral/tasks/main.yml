@@ -1,0 +1,23 @@
+---
+    - name: Install base needed apt-packages
+      apt:
+        pkg:
+          - python3-pip
+          - python3-dev
+          - virtualenv
+          - libpq-dev
+          - nginx
+          - git
+        state: latest
+
+    - name: pull reposit
+      git:
+        repo: "https://github.com/4nndr01d/ansible_test.git"
+        dest: "/root/ansible_test"
+        update: yes
+        force: yes
+
+    - name: Create the virtualenv
+      command:
+        cmd: virtualenv root/ansible_test/venv -p python3
+        creates: "/root/ansible_test/venv"

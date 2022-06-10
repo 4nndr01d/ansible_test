@@ -1,0 +1,2 @@
+[my-machine]
+testserver ansible_host=77.222.60.230 ansible_port=22 ansible_user=root ansible_private_key_file=~/.ssh/id_rsa ansible_become_password="PS-8TDHNFJZ1YGDB"

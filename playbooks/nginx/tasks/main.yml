@@ -1,0 +1,17 @@
+---
+    - name: Install Nginx
+      apt: name=nginx state=latest update_cache=true
+      register: nginxinstalled
+      notify:
+         - nginx start
+
+    - name: Add Nginx cofig
+      when: nginxinstalled is success
+      template: src=default.j2 dest=/etc/nginx/sites-available/ansible_test owner=www-data group=www-data
+
+    - name: create symlink
+      file:
+            src: /etc/nginx/sites-available/ansible_test
+            dest: /etc/nginx/sites-enabled/default
+            state: link
+      notify: restart nginx

@@ -1,0 +1,33 @@
+---
+
+   - name: Install Django Framework
+     pip:
+        name: django
+        virtualenv: "{{project_name_path}}/venv"
+        virtualenv_command: virtualenv
+        virtualenv_python: python3
+
+   - name: Install Gunicorn
+     pip:
+        name: gunicorn
+        virtualenv: "{{project_name_path}}/venv"
+        virtualenv_command: virtualenv
+        virtualenv_python: python3
+
+   - name: Create Settings File for Django
+     template: src=settings.py.j2 dest={{ project_name_path }}/{{ project_name }}/settings.py
+
+   - name: Make migrations
+     django_manage: app_path={{ project_name_path }} 
+                    command=makemigrations
+                    virtualenv={{project_name_path}}/venv
+
+   - name: Migrate database
+     django_manage: app_path={{ project_name_path }}
+                        command=migrate
+                        virtualenv={{project_name_path}}/venv
+
+   - name: Get all static files
+     django_manage: app_path={{ project_name_path }}
+                        command=collectstatic
+                        virtualenv={{project_name_path}}/venv
